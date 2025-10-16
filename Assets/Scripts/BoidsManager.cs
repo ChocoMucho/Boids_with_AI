@@ -12,6 +12,8 @@ public class BoidsManager : MonoBehaviour
     [SerializeField] private float alignWeight = 1.0f;
     [SerializeField] private float cohesionWeight = 1.0f;
 
+    [SerializeField] private float moveSphereRange = 50f;
+
     private readonly List<Boid> boids = new List<Boid>();
 
     private void Awake()
@@ -93,4 +95,5 @@ public class BoidsManager : MonoBehaviour
     public float SeparationWeight => separationWeight;
     public float AlignWeight => alignWeight;
     public float CohesionWeight => cohesionWeight;
+    public float MoveSphereRange => moveSphereRange;
 }

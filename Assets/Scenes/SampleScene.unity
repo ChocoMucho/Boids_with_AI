@@ -460,9 +460,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BoidsManager
   boidPrefab: {fileID: 7904804955083373825, guid: 3df05a7b807d5d74eb5bbf941242f51d, type: 3}
   boidLimit: 200
-  separationWeight: 1
-  alignWeight: 1
-  cohesionWeight: 1
+  separationWeight: 4.5
+  alignWeight: 5
+  cohesionWeight: 4
+  moveSphereRange: 20
 --- !u!4 &774497110
 Transform:
   m_ObjectHideFlags: 0

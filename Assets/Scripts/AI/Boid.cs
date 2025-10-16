@@ -42,6 +42,7 @@ public class Boid : MonoBehaviour
         ApplySteering(desired);
         UpdateRotation();
         UpdatePosition();
+        CheckWrapInSphere();
     }
 
     public void RefreshNeighbors(IReadOnlyList<Boid> allBoids)
@@ -165,5 +166,17 @@ public class Boid : MonoBehaviour
     {
         Gizmos.color = new Color(0f, 0.6f, 1f, 0.15f);
         Gizmos.DrawSphere(transform.position, perceptionRadius);
+    }
+
+    private void CheckWrapInSphere()
+    {
+        if (manager == null) return;
+        float r = manager.MoveSphereRange;
+        if (r <= 0f) return;
+        Vector3 p = transform.position;
+        if (p.sqrMagnitude > r * r)
+        {
+            transform.position = -p;
+        }
     }
 }
