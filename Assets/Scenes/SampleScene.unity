@@ -412,8 +412,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bd31b7a54c463d4595790c5645efad8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoidSpawner
-  initialCount: 200
-  areaSize: {x: 10, y: 10, z: 10}
+  initialCount: 100
+  areaSize: {x: 5, y: 5, z: 5}
 --- !u!4 &765399348
 Transform:
   m_ObjectHideFlags: 0
@@ -460,9 +460,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BoidsManager
   boidPrefab: {fileID: 7904804955083373825, guid: 3df05a7b807d5d74eb5bbf941242f51d, type: 3}
   boidLimit: 200
-  separationWeight: 0.9
-  alignWeight: 0.8
-  cohesionWeight: 1.1
+  separationWeight: 1
+  alignWeight: 1
+  cohesionWeight: 1
 --- !u!4 &774497110
 Transform:
   m_ObjectHideFlags: 0

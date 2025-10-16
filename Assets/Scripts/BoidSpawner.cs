@@ -14,7 +14,10 @@ public class BoidSpawner : MonoBehaviour
                 Random.Range(-areaSize.y * 0.5f, areaSize.y * 0.5f),
                 Random.Range(-areaSize.z * 0.5f, areaSize.z * 0.5f)
             );
-            BoidsManager.Instance.CreateBoid(pos, Quaternion.identity);
+            Vector3 dir = Random.onUnitSphere;
+            if(dir == Vector3.zero) dir = Vector3.forward;
+            Quaternion rot = Quaternion.LookRotation(dir);
+            BoidsManager.Instance.CreateBoid(pos, rot);
         }
     }
 }
