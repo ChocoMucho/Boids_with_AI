@@ -13,6 +13,7 @@ public class BoidsManager : MonoBehaviour
     [SerializeField] private float cohesionWeight = 1.0f;
 
     [SerializeField] private float moveSphereRange = 50f;
+    [SerializeField] private Vector3 centerPosition = Vector3.zero;
 
     private readonly List<Boid> boids = new List<Boid>();
 
@@ -96,4 +97,10 @@ public class BoidsManager : MonoBehaviour
     public float AlignWeight => alignWeight;
     public float CohesionWeight => cohesionWeight;
     public float MoveSphereRange => moveSphereRange;
+    public Vector3 CenterPosition => centerPosition;
+
+    public void SetCenterPosition(Vector3 pos)
+    {
+        centerPosition = pos;
+    }
 }

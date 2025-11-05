@@ -7,10 +7,12 @@ public class Boid : MonoBehaviour
     [SerializeField] private float maxSpeed = 5.0f;
     [SerializeField] private float maxForce = 0.5f;
     [SerializeField] private float turnSpeed = 6.0f;
+    [SerializeField] private float boundaryWeight = 1.0f;
 
     private BoidsManager manager;
     private readonly List<Boid> neighbors = new List<Boid>();
     private Vector3 currentDirection = Vector3.zero;
+    private Vector3 centerPosition;
 
     public void Initialize(BoidsManager manager)
     {
@@ -38,11 +40,11 @@ public class Boid : MonoBehaviour
         Vector3 alignment = ComputeAlignment();
         Vector3 cohesion = ComputeCohesion();
 
+        SyncCenterFromManager();
         Vector3 desired = CombineSteering(separation, alignment, cohesion);
         ApplySteering(desired);
         UpdateRotation();
         UpdatePosition();
-        CheckWrapInSphere();
     }
 
     public void RefreshNeighbors(IReadOnlyList<Boid> allBoids)
@@ -130,6 +132,8 @@ public class Boid : MonoBehaviour
         float wC = manager != null ? manager.CohesionWeight : 1.0f;
 
         Vector3 steering = separation * wS + alignment * wA + cohesion * wC;
+        Vector3 boundary = CalculateBoundarySteering();
+        steering += boundary;
         if (steering == Vector3.zero)
         {
             return currentDirection;
@@ -168,15 +172,35 @@ public class Boid : MonoBehaviour
         Gizmos.DrawSphere(transform.position, perceptionRadius);
     }
 
-    private void CheckWrapInSphere()
+    private void SyncCenterFromManager()
     {
-        if (manager == null) return;
-        float r = manager.MoveSphereRange;
-        if (r <= 0f) return;
-        Vector3 p = transform.position;
-        if (p.sqrMagnitude > r * r)
+        if (manager != null)
         {
-            transform.position = -p;
+            centerPosition = manager.CenterPosition;
         }
+    }
+
+    private Vector3 CalculateBoundarySteering()
+    {
+        if (manager == null) return Vector3.zero;
+        float boundaryRadius = manager.MoveSphereRange;
+        if (boundaryRadius <= 0f) return Vector3.zero;
+
+        Vector3 toCenter = centerPosition - transform.position;
+        float distanceToCenter = toCenter.magnitude;
+        if (distanceToCenter <= boundaryRadius) return Vector3.zero;
+
+        Vector3 desiredDir = toCenter.normalized;
+        Vector3 desiredVel = desiredDir * maxSpeed;
+        Vector3 steering = desiredVel - currentDirection * maxSpeed;
+
+        if (steering.magnitude > maxForce)
+        {
+            steering = steering.normalized * maxForce;
+        }
+
+        float t = Mathf.Clamp01((distanceToCenter - boundaryRadius) / boundaryRadius);
+        steering *= (boundaryWeight * t);
+        return steering;
     }
 }
