@@ -103,6 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Boid
   perceptionRadius: 3
-  maxSpeed: 5
+  maxSpeed: 10
   maxForce: 0.5
   turnSpeed: 6
+  boundaryWeight: 5
